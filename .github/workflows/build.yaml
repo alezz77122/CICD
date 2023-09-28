@@ -25,5 +25,8 @@ jobs:
       - name: Build
         run: go build -o myapp
 
-      - name: Test
-        run: go test ./...
+      - name: Integration Test
+        run: |
+          ./myapp &
+          res=$(localhost:3000)
+          [[ $res == 'Hello, World!' ]] || exit 1
