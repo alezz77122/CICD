@@ -28,5 +28,5 @@ jobs:
       - name: Integration Test
         run: |
           ./myapp &
-          res=$(localhost:3000)
+          res=$(curl localhost:3000)
           [[ $res == 'Hello, World!' ]] || exit 1
