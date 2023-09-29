@@ -1,12 +1,14 @@
-name: Release Workflow
+name: Release 
 on:
   push:
     tags:
       - '**'
 
 jobs:
-  build-and-deploy:
+  build-and-release:
     runs-on: ubuntu-latest
+    env:
+        DOCKER_Repo: docker pull saadmtsa/devops_docker_demo_palestine
 
     steps:
       - uses: actions/checkout@v2
@@ -16,6 +18,14 @@ jobs:
             DOCKER_PASSWARD: ${{ secrets.DOCKER_PASSWARD }}
         run: |
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWARD
+      - name: Docker Build Image
+        run: | 
+            version=${GITHUB_REF##*/}
+            docker bulid . -t $DOCKER_Repo:$version
+      - name: Docker push
+        run: |
+            version=${GITHUB_REF##*/}
+            docker push $DOCKER_Repo:$version               
 
       - name: Build project
         run: |
