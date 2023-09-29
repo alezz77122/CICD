@@ -1,0 +1,31 @@
+name: Release Workflow
+on:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker Login
+        env:
+            DOCKER_USERNAME: alezz77122
+            DOCKER_PASSWARD: ${{ secrets.DOCKER_PASSWARD }}
+        run: |
+            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWARD
+
+      - name: Build project
+        run: |
+          # Add your build commands here
+          # For example, if you're using a Node.js project:
+          # npm install
+          # npm run build
+
+      - name: Deploy to production
+        run: |
+          # Add your deployment commands here
+          # For example, if you're deploying to a server:
+          # ssh user@server 'deploy.sh'
